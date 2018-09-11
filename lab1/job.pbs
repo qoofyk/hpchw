@@ -1,0 +1,93 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=0:20:00
+#PBS -N Lab1_1M1P
+#PBS -M fuyuan@iupui.edu
+#PBS -q cpu
+#PBS -V
+#PBS -m abe
+#PBS -j oe
+
+total_process=1
+my_run_exp2="aprun -n $total_process -N 1 -d 32 /N/u/fuyuan/BigRed2/hpchw/hw1/dgemm"
+maxp=1
+inner_loop=20
+# matrix_size=(10 20 40 80 100 150 200 250 291 292 293 295 300 350 400 450 500 550 600 700 800 820 840 860 880 900 920 940 960 980 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000)
+# matrix_size=(490 500 503 504 505 506 508 510 520 530 540)
+# matrix_size=(20 23 24 25 26 27 28 29 30)
+echo "see how many cache level are there"
+ls /sys/devices/system/cpu/cpu0/cache/index
+echo "see each level size"
+echo "level 1 Data"
+cat /sys/devices/system/cpu/cpu0/cache/index0/type
+cat /sys/devices/system/cpu/cpu0/cache/index0/size
+echo "level 1 Instruction"
+cat /sys/devices/system/cpu/cpu0/cache/index1/type
+cat /sys/devices/system/cpu/cpu0/cache/index1/size
+echo "level 2 Unified"
+cat /sys/devices/system/cpu/cpu0/cache/index2/type
+cat /sys/devices/system/cpu/cpu0/cache/index2/size
+echo "level 3 Unified"
+cat /sys/devices/system/cpu/cpu0/cache/index3/type
+cat /sys/devices/system/cpu/cpu0/cache/index3/size
+
+# matrix_size=(20 23 24 25 26 27 28 29 30)
+# for((i=0;i<${#matrix_size[@]};i++));do
+# 	echo "*************************************************************************************"
+# 	echo "---Matrix_size=${matrix_size[i]}------"
+# 	echo "*************************************************************************************"
+# 	for ((p=0; p<$maxp; p++)); do
+# 		echo "=============Loop $p==============="
+# 		$my_run_exp2 ${matrix_size[i]} $inner_loop
+# 		echo "-----------End Loop$p-------------"
+# 	done
+# done
+
+# matrix_size=(480 490 500 503 504 505 506 508 510 520 530 540)
+# for((i=0;i<${#matrix_size[@]};i++));do
+# 	echo "*************************************************************************************"
+# 	echo "---Matrix_size=${matrix_size[i]}------"
+# 	echo "*************************************************************************************"
+# 	for ((p=0; p<$maxp; p++)); do
+# 		echo "=============Loop $p==============="
+# 		$my_run_exp2 ${matrix_size[i]} $inner_loop
+# 		echo "-----------End Loop$p-------------"
+# 	done
+# done
+
+# matrix_size=(10)
+# for((i=0;i<${#matrix_size[@]};i++));do
+# 	echo "*************************************************************************************"
+# 	echo "---Matrix_size=${matrix_size[i]}------"
+# 	echo "*************************************************************************************"
+# 	for ((p=0; p<$maxp; p++)); do
+# 		echo "=============Loop $p==============="
+# 		$my_run_exp2 ${matrix_size[i]} $inner_loop
+# 		echo "-----------End Loop$p-------------"
+# 	done
+# done
+
+# matrix_size=(250 260 270 280 291 292 293 295 297 300 310 320 330 340 350)
+# for((i=0;i<${#matrix_size[@]};i++));do
+# 	echo "*************************************************************************************"
+# 	echo "---Matrix_size=${matrix_size[i]}------"
+# 	echo "*************************************************************************************"
+# 	for ((p=0; p<$maxp; p++)); do
+# 		echo "=============Loop $p==============="
+# 		$my_run_exp2 ${matrix_size[i]} $inner_loop
+# 		echo "-----------End Loop$p-------------"
+# 	done
+# done
+
+matrix_size=(50 55 60 65 70 75)
+for((i=0;i<${#matrix_size[@]};i++));do
+	echo "*************************************************************************************"
+	echo "---Matrix_size=${matrix_size[i]}------"
+	echo "*************************************************************************************"
+	for ((p=0; p<$maxp; p++)); do
+		echo "=============Loop $p==============="
+		$my_run_exp2 ${matrix_size[i]} $inner_loop
+		echo "-----------End Loop$p-------------"
+	done
+done
