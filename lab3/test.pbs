@@ -1,0 +1,21 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=0:5:00
+#PBS -N Lab3_1M16P
+#PBS -M fuyuan@iupui.edu
+#PBS -q cpu
+#PBS -V
+#PBS -m abe
+#PBS -j oe
+
+total_process=16
+sqrt_process_size=4
+real_matrixsize_N=64
+each_process_matrixsize_n=real_matrixsize_N/sqrt_process_size
+inner_loop=1
+block_size=1
+my_run_exp1="aprun -n $total_process -N 16 -d 2 /N/u/fuyuan/BigRed2/hpchw/lab3/summa"
+
+echo "=============SUMMA:Real_Matrix_size=$real_matrixsize_N==============="
+$my_run_exp1 $real_matrixsize_N $each_process_matrixsize_n $block_size $inner_loop

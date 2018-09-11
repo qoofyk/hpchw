@@ -1,0 +1,111 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=8:ppn=32
+#PBS -l walltime=6:00:00
+#PBS -N Lab3_strong
+#PBS -M fuyuan@iupui.edu
+#PBS -q cpu
+#PBS -V
+#PBS -m abe
+#PBS -j oe
+
+# cat /proc/cpuinfo
+# echo "see how many cache level are there"
+# ls /sys/devices/system/cpu/cpu0/cache/index
+# echo "see each level size"
+# echo "level 1 Data"
+# cat /sys/devices/system/cpu/cpu0/cache/index0/type
+# cat /sys/devices/system/cpu/cpu0/cache/index0/size
+# echo "level 1 Instruction"
+# cat /sys/devices/system/cpu/cpu0/cache/index1/type
+# cat /sys/devices/system/cpu/cpu0/cache/index1/size
+# echo "level 2 Unified"
+# cat /sys/devices/system/cpu/cpu0/cache/index2/type
+# cat /sys/devices/system/cpu/cpu0/cache/index2/size
+# echo "level 3 Unified"
+# cat /sys/devices/system/cpu/cpu0/cache/index3/type
+# cat /sys/devices/system/cpu/cpu0/cache/index3/size
+
+# total_process=256
+# sqrt_process_size=16
+# my_run_exp1="aprun -n $total_process -N 32 -d 1 /N/u/fuyuan/BigRed2/hpchw/lab3/summa"
+# each_process_matrixsize_n=2048
+# real_matrixsize_N=`expr $each_process_matrixsize_n \* $sqrt_process_size`
+# inner_loop=2
+# block_size=(64 128 256 512 1024 2048)
+# echo "!!!!!!!===========SUMMA:Real_Matrix_size=$real_matrixsize_N, total_process=$total_process============!!!!!"
+# for ((j=0;j<${#block_size[@]};j++)); do
+# 		echo
+# 		echo "=============SUMMA:Matrix_size=$real_matrixsize_N, each_process_matrixsize_n=$each_process_matrixsize_n, block_size=${block_size[j]}==============="
+# 		$my_run_exp1 $real_matrixsize_N $each_process_matrixsize_n ${block_size[j]} $inner_loop
+# 		echo "-----------End SUMMA-------------"
+# 		echo
+# done
+
+
+
+# total_process=64
+# sqrt_process_size=8
+# my_run_exp1="aprun -n $total_process -N 8 -d 4 /N/u/fuyuan/BigRed2/hpchw/lab3/summa"
+# each_process_matrixsize_n=4096
+# real_matrixsize_N=`expr $each_process_matrixsize_n \* $sqrt_process_size`
+# inner_loop=2
+# block_size=(64 128 256 512 1024 2048 4096)
+# echo "!!!!!!!===========SUMMA:Real_Matrix_size=$real_matrixsize_N, total_process=$total_process============!!!!!"
+# for ((j=0;j<${#block_size[@]};j++)); do
+# 		echo
+# 		echo "=============SUMMA:Matrix_size=$real_matrixsize_N, each_process_matrixsize_n=$each_process_matrixsize_n, block_size=${block_size[j]}==============="
+# 		$my_run_exp1 $real_matrixsize_N $each_process_matrixsize_n ${block_size[j]} $inner_loop
+# 		echo "-----------End SUMMA-------------"
+# 		echo
+# done
+
+
+# total_process=16
+# sqrt_process_size=4
+# my_run_exp1="aprun -n $total_process -N 2 -d 16 /N/u/fuyuan/BigRed2/hpchw/lab3/summa"
+# each_process_matrixsize_n=8192
+# real_matrixsize_N=`expr $each_process_matrixsize_n \* $sqrt_process_size`
+# inner_loop=2
+# block_size=(64 128 256 512 1024 2048 4096 8192)
+# echo "!!!!!!!===========SUMMA:Real_Matrix_size=$real_matrixsize_N, total_process=$total_process============!!!!!"
+# for ((j=0;j<${#block_size[@]};j++)); do
+# 		echo
+# 		echo "=============SUMMA:Matrix_size=$real_matrixsize_N, each_process_matrixsize_n=$each_process_matrixsize_n, block_size=${block_size[j]}==============="
+# 		$my_run_exp1 $real_matrixsize_N $each_process_matrixsize_n ${block_size[j]} $inner_loop
+# 		echo "-----------End SUMMA-------------"
+# 		echo
+# done
+
+
+total_process=4
+sqrt_process_size=2
+my_run_exp1="aprun -n $total_process -N 1 -d 32 /N/u/fuyuan/BigRed2/hpchw/lab3/summa"
+each_process_matrixsize_n=16384
+real_matrixsize_N=`expr $each_process_matrixsize_n \* $sqrt_process_size`
+inner_loop=2
+block_size=(64 128 256 512 1024 2048 4096 8192 16384)
+echo "!!!!!!!===========SUMMA:Real_Matrix_size=$real_matrixsize_N, total_process=$total_process============!!!!!"
+for ((j=0;j<${#block_size[@]};j++)); do
+		echo
+		echo "=============SUMMA:Matrix_size=$real_matrixsize_N, each_process_matrixsize_n=$each_process_matrixsize_n, block_size=${block_size[j]}==============="
+		$my_run_exp1 $real_matrixsize_N $each_process_matrixsize_n ${block_size[j]} $inner_loop
+		echo "-----------End SUMMA-------------"
+		echo
+done
+
+total_process=1
+sqrt_process_size=1
+my_run_exp1="aprun -n $total_process -N 1 -d 32 /N/u/fuyuan/BigRed2/hpchw/lab3/summa"
+each_process_matrixsize_n=32768
+real_matrixsize_N=`expr $each_process_matrixsize_n \* $sqrt_process_size`
+inner_loop=2
+block_size=(64 128 256 512 1024 2048 4096 8192 16384)
+echo "!!!!!!!===========SUMMA:Real_Matrix_size=$real_matrixsize_N, total_process=$total_process============!!!!!"
+for ((j=0;j<${#block_size[@]};j++)); do
+		echo
+		echo "=============SUMMA:Matrix_size=$real_matrixsize_N, each_process_matrixsize_n=$each_process_matrixsize_n, block_size=${block_size[j]}==============="
+		$my_run_exp1 $real_matrixsize_N $each_process_matrixsize_n ${block_size[j]} $inner_loop
+		echo "-----------End SUMMA-------------"
+		echo
+done
