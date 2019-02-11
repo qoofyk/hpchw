@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=0:30:00
+#PBS -N Lab4_IMP_32
+#PBS -M fuyuan@iupui.edu
+#PBS -q gpu
+#PBS -V
+#PBS -m abe
+#PBS -j oe
+
+cd /N/u/fuyuan/BigRed2/hpchw/lab4/improve_matmul_32
+aprun ./matmul 8192 2
